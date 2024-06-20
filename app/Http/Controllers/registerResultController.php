@@ -63,8 +63,12 @@ class registerResultController extends Controller
             return 5;
 
         }
+        
+        // if ($match->teamA_score == $teamA_Score_prediction || $match->teamB_score == $teamB_Score_prediction) {
+        //     return 2;
+        // }
 
-        return 0;
+        return 1;
 
     }
     

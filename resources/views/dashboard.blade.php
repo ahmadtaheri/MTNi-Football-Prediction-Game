@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asia 2024</title>
+    <title>EURO 2024</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
           integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
@@ -53,7 +53,7 @@
 <nav class="navbar navbar-light bg-light p-3">
     <div class="d-flex col-12 col-md-3 col-lg-2 mb-2 mb-lg-0 flex-wrap flex-md-nowrap justify-content-between">
         <a class="navbar-brand" href="/">
-            Asia 2024
+            EURO 2024
         </a>
         <button class="navbar-toggler d-md-none collapsed mb-3" type="button" data-toggle="collapse"
                 data-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
@@ -198,12 +198,12 @@
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">{{$match->teamA}}</label>
                                     <input type="number" class="form-control" id="teamA_Score_prediction"
-                                           name="teamA_Score_prediction" aria-describedby="emailHelp" required
+                                           name="teamA_Score_prediction" min="0" max="20" aria-describedby="emailHelp" required
                                            value="{{$match->users()->wherePivot('user_id',Auth::id())->value('teamA_Score_prediction')}}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">{{$match->teamB}}</label>
-                                    <input type="number" class="form-control" id="teamB_Score_prediction"
+                                    <input type="number" min="0" max="20" class="form-control" id="teamB_Score_prediction"
                                            name="teamB_Score_prediction" aria-describedby="emailHelp" required
                                            value="{{$match->users()->wherePivot('user_id',Auth::id())->value('teamB_Score_prediction')}}">
                                 </div>

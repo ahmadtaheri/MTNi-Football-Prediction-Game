@@ -115,6 +115,7 @@
                                         <th scope="col">MatchTime</th>
                                         <th scope="col">No. of Predictions</th>
                                         <th scope="col">Action</th>
+                                        <th><a href="/sendTelegramMessageRankingTable" class="btn btn-dark">Send RankingTable to Tg</a></th>
                                     </tr>
                                     </thead>
                                     @isset($matches)
@@ -129,6 +130,10 @@
                                             <td>{{$match->matchTime}}</td>
                                             <td>{{$match->users->count()}}</td>
                                             <td><button type="submit" class="btn btn-primary">Show Predictions</button></td>
+                                            <td><a href="/sendTelegramMessagePredictions/{{$match->id}}" class="btn btn-info">Send Predictions to Tg</a></td>
+                                            <td><a href="/sendTelegramMessagePredictionsWithPoints/{{$match->id}}" class="btn btn-success">Send MatchPoints to Tg</a></td>
+                                            <td><a href="/sendTelegramMessageUnpredictedUsers/{{$match->id}}" class="btn btn-info">Send Unpredicted to Tg</a></td>
+
                                             </form>
                                         </tr>
                                     @endforeach

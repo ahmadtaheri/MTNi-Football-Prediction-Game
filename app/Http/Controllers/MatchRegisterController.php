@@ -34,30 +34,12 @@ class MatchRegisterController extends Controller
     private function teams()
     {
         return [
-           'Jordan',
-'India', 
-'Indonesia', 
-'Japan', 
-'Bahrain',
-'Qatar ',
-'Malesiya', 
-'Syria', 
-'Tajikistan', 
-'Australia', 
-'Kyrgyz Republic', 
-'Saudi Arabia', 
-'Thailand', 
-'Iran', 
-'Hong Kong',
-'Palestine',
-'China',
-'Uzbekistan', 
-'UAE',
-'Vietnam', 
-'Oman',
-'South Korea',
-'Lebnan',
-'Iraq'
+           'Germany', 'Scotland', 'Hungary', 'Switzerland',
+'Spain', 'Croatia', 'Italy', 'Albania',
+'Slovenia', 'Denmark', 'Serbia', 'England',
+'Poland', 'Netherlands', 'Austria', 'France',
+'Belgium', 'Slovakia', 'Romania', 'Ukraine',
+'Turkey', 'Georgia', 'Portugal', 'Czech Republic'
         ];
     }
 }

@@ -24,11 +24,11 @@
 
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">{{$match->teamA}}</label>
-                        <input type="number" class="form-control" id="exampleInputEmail1" name="teamA_Score_prediction" aria-describedby="emailHelp" >
+                        <input type="number" min="0" max="20" class="form-control" id="exampleInputEmail1" name="teamA_Score_prediction" aria-describedby="emailHelp" >
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">{{$match->teamB}}</label>
-                        <input type="number" class="form-control" id="exampleInputEmail1" name="teamB_Score_prediction" aria-describedby="emailHelp">
+                        <input type="number" min="0" max="20" class="form-control" id="exampleInputEmail1" name="teamB_Score_prediction" aria-describedby="emailHelp">
                     </div>
 
 

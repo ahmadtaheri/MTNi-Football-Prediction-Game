@@ -45,7 +45,6 @@ Route::post('/showMatchPredictions/{match_id}', [MatchPredictionController::clas
 
 //storing Cup Winner
 Route::post('/registerCupWinner', [MatchPredictionController::class, 'storeCupWinner'])->middleware(['auth']);
-
 Route::get('/showSumOfLastMatchesPerUser', [MatchPredictionController::class, 'showSumOfLastMatchesPerUser'])->middleware(['auth']);
 
 //Dashboard Route
@@ -54,17 +53,22 @@ Route::get('/dashboard', [MatchPredictionController::class, 'view'])->middleware
 
 //Report Cup Winner predictions
 Route::get('/reportCupWinnerPredictions', [MatchPredictionController::class, 'reportCupWinnerPredictions'])->middleware(['auth'])->name('reportCupWinner');
-
 Route::get('/storeCupWinnerPoint', [MatchPredictionController::class, 'storeCupWinnerPoint'])->middleware(['auth']);
-
 Route::get('/reportExactPrediction', [MatchPredictionController::class, 'reportExactPrediction'])->middleware(['auth']);
 
 
+//Report Cup Winner predictions
+Route::get('/sendTelegramMessageRankingTable', [MatchPredictionController::class, 'sendTelegramMessageRankingTable'])->middleware(['auth']);
+Route::get('/sendTelegramMessagePredictions/{matchId}', [MatchPredictionController::class, 'sendTelegramMessagePredictions'])->middleware(['auth']);
+Route::get('/sendTelegramMessagePredictionsWithPoints/{matchId}', [MatchPredictionController::class, 'sendTelegramMessagePredictionsWithPoints'])->middleware(['auth']);
+Route::get('/sendTelegramMessageUnpredictedUsers/{matchId}', [MatchPredictionController::class, 'sendTelegramMessageUnpredictedUsers'])->middleware(['auth']);
 
-//Route::get('/migrateTable', function () {
-////   return Artisan::call('migrate:refresh');});
-//    return Artisan::call('migrate');
-//});
+
+// Route::get('/migrateTable', function () {
+// //   return Artisan::call('migrate:refresh');});
+//     // return Artisan::call('migrate');
+//     return Artisan::call('optimize:clear');
+// });
 
 
 

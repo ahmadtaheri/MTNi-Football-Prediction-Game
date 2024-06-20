@@ -177,6 +177,139 @@ class MatchPredictionController extends Controller
         }
         return "Done";
     }
+    
+       public function sendTelegramMessageRankingTable()
+    {
+        
+        $botApiToken = '7447333705:AAFKW0TK52x6SXMErQF7sCA2dbgDbOz-z5Y';
+        $channelId ='@newbotchanneltest';
+        $ranks = $this->calculateRanking() ;
+        $table='';
+        $i=1;
+        foreach ($ranks as $key => $value){
+            $table.=$i.'-'.$key.' ➡️ '.'<b>'.$value.'</b>'.'pts'."\n";
+            $i++;
+        }
+        $query = http_build_query([
+          'chat_id' => $channelId,
+          'text' =>"******"."\n".'<b>'.'#Ranking_Table'.'</b>'."\n"."\n".$table ,
+          'parse_mode'=>'html'
+        ]);
+       $url = "https://api.telegram.org/bot{$botApiToken}/sendMessage?{$query}";
+       $curl = curl_init();
+       curl_setopt_array($curl, array(
+       CURLOPT_URL => $url,
+       CURLOPT_RETURNTRANSFER => true,
+       CURLOPT_CUSTOMREQUEST => 'GET',
+        ));
+     dd(curl_exec($curl));
+     curl_close($curl);
+    }
+    
+      public function sendTelegramMessagePredictions($match_id)
+    {
+        
+        $botApiToken = '7447333705:AAFKW0TK52x6SXMErQF7sCA2dbgDbOz-z5Y';
+        $channelId ='@newbotchanneltest';
+        Gate::authorize('admin_authority');
+        $match = Match::find($match_id);
+        $predictedUsers =$match->users->sortBy('firstName');
+        $table='';
+        foreach ($predictedUsers as $user){
+            $name=$user->firstName;
+            $lastName=$user->lastName;
+            $teamA=$user->getOriginal('pivot_teamA_Score_prediction');
+            $teamB=$user->getOriginal('pivot_teamB_Score_prediction');
+            $table.=$name.' '.$lastName.': '.'<b>'.$teamA.'</b>'.'|'.'<b>'.$teamB.'</b>'."\n";
+        }
+        
+        $header="******"."\n".'<b>'.'#Prediction'.'</b>'."\n"."\n";
+        $header1='Name'.':'.'⚽'.'<b>'.$match->teamA.'</b>'.'|'.'⚽'.'<b>'.$match->teamB.'</b>'."\n"."\n";
+        $query = http_build_query([
+          'chat_id' => $channelId,
+          'text' =>$header.$header1.$table,
+          'parse_mode'=>'html'
+        ]);
+       $url = "https://api.telegram.org/bot{$botApiToken}/sendMessage?{$query}";
+       $curl = curl_init();
+       curl_setopt_array($curl, array(
+       CURLOPT_URL => $url,
+       CURLOPT_RETURNTRANSFER => true,
+       CURLOPT_CUSTOMREQUEST => 'GET',
+        ));
+     dd(curl_exec($curl));
+     curl_close($curl);
+    }
+    
+       public function sendTelegramMessagePredictionsWithPoints($match_id)
+    {
+        
+        $botApiToken = '7447333705:AAFKW0TK52x6SXMErQF7sCA2dbgDbOz-z5Y';
+        $channelId ='@newbotchanneltest';
+        Gate::authorize('admin_authority');
+        $match = Match::find($match_id);
+        $predictedUsers =$match->users->sortBy('firstName');
+        $table='';
+        foreach ($predictedUsers as $user){
+            // dd($user);
+            $name=$user->firstName;
+            $lastName=$user->lastName;
+            $teamA=$user->getOriginal('pivot_teamA_Score_prediction');
+            $teamB=$user->getOriginal('pivot_teamB_Score_prediction');
+            $point=$user->getOriginal('pivot_match_point');
+            $table.=$name.' '.$lastName.': '.'<b>'.$teamA.'</b>'.'|'.'<b>'.$teamB.'</b>'.'  =  '.'<b>'.$point.'</b>'."\n";
+        }
+        
+        $header="******"."\n".'<b>'.'#Match_Point'.'</b>'."\n"."\n";
+        $header1='Name'.':'.'⚽'.'<b>'.$match->teamA.'</b>'.'|'.'⚽'.'<b>'.$match->teamB.'</b>'.'  =  '.'Match Point'."\n"."\n";
+        $query = http_build_query([
+          'chat_id' => $channelId,
+          'text' =>$header.$header1.$table,
+          'parse_mode'=>'html'
+        ]);
+       $url = "https://api.telegram.org/bot{$botApiToken}/sendMessage?{$query}";
+       $curl = curl_init();
+       curl_setopt_array($curl, array(
+       CURLOPT_URL => $url,
+       CURLOPT_RETURNTRANSFER => true,
+       CURLOPT_CUSTOMREQUEST => 'GET',
+        ));
+     dd(curl_exec($curl));
+     curl_close($curl);
+    }
+    
+       public function sendTelegramMessageUnpredictedUsers($match_id)
+    {
+        
+        $botApiToken = '7447333705:AAFKW0TK52x6SXMErQF7sCA2dbgDbOz-z5Y';
+        $channelId ='@newbotchanneltest';
+        Gate::authorize('admin_authority');
+        $match = Match::find($match_id);
+        $usersId = array_column(User::all()->map->only('id')->toArray(), 'id');
+        $predictedIds = array_column($match->users->map->only('id')->toArray(), 'id');
+        $unpredictedUsers = array_diff($usersId, $predictedIds);
+        $table='';
+        $i=1;
+        foreach($unpredictedUsers as $key => $id){
+            $user=User::find($id);
+            $table.=$i.'-'.'<b>'.$user->firstName.' '.$user->lastName.'</b>'."\n";
+            $i++;
+        }
+        $query = http_build_query([
+          'chat_id' => $channelId,
+           'text' =>'⚽'.'<b>'.$match->teamA.'</b>'.'|'.'⚽'.'<b>'.$match->teamB.'</b>'."\n"."\n"."❌".'<b>'.'Whom Not Predicted Yet'.'</b>'."❌"."\n"."\n".$table ,
+          'parse_mode'=>'html'
+        ]);
+       $url = "https://api.telegram.org/bot{$botApiToken}/sendMessage?{$query}";
+       $curl = curl_init();
+       curl_setopt_array($curl, array(
+       CURLOPT_URL => $url,
+       CURLOPT_RETURNTRANSFER => true,
+       CURLOPT_CUSTOMREQUEST => 'GET',
+        ));
+     dd(curl_exec($curl));
+     curl_close($curl);
+    }
 }
 
 
